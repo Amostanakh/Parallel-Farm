@@ -1,0 +1,47 @@
+name: TEST CI
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: behonest/setup-flutter@v1
+        with:
+          flutter-version: '3.0.4'  # Or desired version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze code
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test --coverage
+
+      - name: Build app
+        run: flutter build apk --release
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: flutter_build
+          path: build/app/outputs/apk/release/app.apk
+
+      - name: Report results
+        if: always()
+        uses: EnricoMirowski/actions-results@v3
+        with:
+            condition: ${{ success || failure() }}
+          context: ${{ github.run_id }}
+          title: Flutter CI
+          summary: "Built and tested successfully!"
+          text: ""  # Or provide more detailed results here
+          annotations: ""
+          check_name: flutter-ci

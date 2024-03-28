@@ -1,0 +1,10 @@
+const String login = 'login';
+const String home = 'home_screen';
+const String animalMarket = 'animal-details';
+const String pwScreen = 'pw-screen';
+const String barnPage = 'barn-page';
+const String animalBarn = "animal_market_barn_screen";
+const String inviteScreen = "invite";
+const String welcomeScreen = "welcome";
+const String settingsScreen = "settings";
+const String userNavigationScreen = "user-nav";
